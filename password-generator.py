@@ -19,6 +19,7 @@ lower_case = string.ascii_letters
 upper_case = lower_case.upper()
 numbers = string.digits
 symbols = '~!@#$%^&*()-=_+[]{}|\\;\',./<>?'
+upper, lower, nums, syms = False, False, False, False
 
 upper_bool = input("Do you want upper case letters? (Y/N)")
 lower_bool = input("Do you want lower case letters? (Y/N)")
