@@ -1,10 +1,24 @@
 import random
 import string
+import requests
+import hashlib
+
+
+def lookup(password):
+    sha1pwd = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+    head, tail = sha1pwd[:5], sha1pwd[5:]
+    url = 'https://api.pwnedpasswords.com/range/' + head
+    res = requests.get(url)
+
+    hashes = (line.split(':') for line in res.text.splitlines())
+    count = next((int(count) for t, count in hashes if t == tail), 0)
+    return count
+
 
 lower_case = string.ascii_letters
 upper_case = lower_case.upper()
 numbers = string.digits
-symbols = string.punctuation
+symbols = '~!@#$%^&*()-=_+[]{}|\\;\',./<>?'
 
 upper_bool = input("Do you want upper case letters? (Y/N)")
 lower_bool = input("Do you want lower case letters? (Y/N)")
@@ -25,24 +39,15 @@ if seed_bool == 'Y':
 
 if upper_bool == 'Y':
     upper = True
-else:
-    upper = False
 
 if lower_bool == 'Y':
     lower = True
-else:
-    lower = False
 
 if num_bool == 'Y':
     nums = True
-else:
-    nums = False
 
 if syms_bool == 'Y':
     syms = True
-else:
-    syms = False
-
 
 choices = ""
 
@@ -55,10 +60,17 @@ if nums:
 if syms:
     choices += symbols
 
+genned_passwords = []
 
 password_length = int(input("What is the size of the password you want?"))
 password_amount = int(input("How many passwords do you want?"))
-
 for x in range(password_amount):
     password = "".join(random.sample(choices, password_length))
-    print(password)
+    genned_passwords.append(password)
+
+for i in genned_passwords:
+    count = lookup(i)
+    if count:
+        genned_passwords.remove(i)
+    else:
+        print("Brand New Password checked by pwned API:", i)
