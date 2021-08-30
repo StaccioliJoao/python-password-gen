@@ -21,18 +21,12 @@ numbers = string.digits
 symbols = '~!@#$%^&*()-=_+[]{}|\\;\',./<>?'
 upper, lower, nums, syms = False, False, False, False
 
-upper_bool = input("Do you want upper case letters? (Y/N)")
-lower_bool = input("Do you want lower case letters? (Y/N)")
-num_bool = input("Do you want numbers? (Y/N)")
-syms_bool = input("Do you want symbols? (Y/N)")
+upper_bool = input("Do you want upper case letters? (Y/N)").upper()
+lower_bool = input("Do you want lower case letters? (Y/N)").upper()
+num_bool = input("Do you want numbers? (Y/N)").upper()
+syms_bool = input("Do you want symbols? (Y/N)").upper()
 seed_bool = input(
-    "Do you want to use a seed so you can generate the same passwords at a later time? (Y/N)")
-
-upper_bool.upper()
-lower_bool.upper()
-num_bool.upper()
-syms_bool.upper()
-seed_bool.upper()
+    "Do you want to use a seed so you can generate the same passwords at a later time? (Y/N)").upper()
 
 if seed_bool == 'Y':
     seed = input("What seed do you want?")
@@ -75,3 +69,4 @@ for i in genned_passwords:
         genned_passwords.remove(i)
     else:
         print("Brand New Password checked by pwned API:", i)
+input('\nPress ENTER to exit')
